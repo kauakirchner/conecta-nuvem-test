@@ -1,4 +1,4 @@
 export const firebaseConfig = {
-   // Configurações do seu webapp
+   // Configurações do seu webApp.
 };
  
