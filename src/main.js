@@ -11,7 +11,6 @@ import * as directives from 'vuetify/directives';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-default.css';
 
-
 registerFirebase();
 const vuetify = createVuetify({
   components,
@@ -23,6 +22,7 @@ app.use(vuetify);
 app.use(VueToast);
 app.use(router);
 app.use(store);
+
 app.mount("#app");
 
 

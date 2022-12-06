@@ -4,7 +4,7 @@ export default {
         return {
             isAuthenticated: false,
             users: [],
-            formUsers: []
+            oauthAcessToken: '',
         }
     },
     mutations: {
@@ -16,8 +16,8 @@ export default {
             state.users.push(user);
         },
 
-        setFormUsers(state, user) {
-            state.formUsers.push(user);
+        setOauthAcessToken(state, value) {
+            state.oauthAcessToken = value;
         }
     }
 }
