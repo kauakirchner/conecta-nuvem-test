@@ -1,4 +1,6 @@
 <template>
+    <v-responsive>
+        <Navbar :pageName="'Login'" />
         <v-container class="container">
             <v-sheet class="" rounded>
                 <v-card class="mx-auto px-6 py-8 mt-8" max-width="344" theme="dark">
@@ -9,6 +11,9 @@
                             label="Name"
                             type="text"
                         />
+
+                        {{formUser.name }}
+
                         <v-text-field
                             v-model="formUser.email"
                             class="mb-2"
@@ -40,7 +45,7 @@
                                 type="submit"
                                 variant="elevated"
                                 class="sign-in-btn"
-                                @click="handleAuthenticationByForm">
+                                @click="handleGoogleAuthentication">
                                 Sign In
                             </v-btn>
                             <v-btn
@@ -56,50 +61,49 @@
                 </v-card>
             </v-sheet>
         </v-container>
+    </v-responsive>
 </template>
   
   <script>
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+    import { signInWithPopup, GoogleAuthProvider, getAuth } from "firebase/auth";
     import { mapState } from "vuex";
+    import Navbar from '../components/shared/Navbar.vue';
     
     export default {
         name: 'Login',
+        components: {
+            Navbar
+        },
+
         data() {
             return {
-                formUser: {},
+                formUser: {}
             }
         },
 
         methods: { 
-            handleAuthenticationByForm() {
-                this.$store.commit('auth/setFormUsers', this.formUser);
-                this.$store.commit('auth/setIsAuthenticated', true);
-                this.$toast.success(`Wellcome, ${this.formUser.name}`, {
-                    position: "top"
-                });
-            },
-
             handleGoogleAuthentication() {
-
                 const provider = new GoogleAuthProvider();
-                provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
                 const auth = getAuth();
-                auth.languageCode = 'it';
-    
+                provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+                provider.addScope('https://www.googleapis.com/auth/contacts');
+                auth.languageCode = 'pt';
+                
                 signInWithPopup(auth, provider)
-                .then((result) => {
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential.accessToken;
-                    const user = result.user;
+                .then(result => {
+                    const { user } = result;
+                    const userOauthAcesstoken = result._tokenResponse.oauthAccessToken;
+                    this.$store.commit('auth/setOauthAcessToken', userOauthAcesstoken);
                     this.$store.commit('auth/setIsAuthenticated', true);
                     this.$store.commit('auth/setUsers', user);
-                    this.$toast.success(`Wellcome, ${user.displayName}`, {
+                    this.$toast.success(`Welcome, ${user.displayName}`, {
                         position: "top"
                     });
+                    this.$router.push('/contacts')
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
+                    const { code } = error;
+                    const { message } = error;
                     const credential = GoogleAuthProvider.credentialFromError(error);
                     this.$toast.error("Falha ao executar login!", {
                         position: "top"
