@@ -1,34 +1,28 @@
 <template>
-  <v-responsive>
     <router-view></router-view>
     <Navbar :pageName="'Contacts'" />
-    <v-container>
-        <v-table fixed-header max-heigth="100%" max-width="100%" theme="dark" class="contacts-table">
+    <div class="container-fluid p-4 table-container">
+        <table class="table aling-middle">
             <thead>
                 <tr>
-                    <th class="text-left">
-                        Domain
-                    </th>
-                    <th class="text-left">
-                        Contacts
-                    </th>
+                    <th class="text-start text-white" scope="col">Domain</th>
+                    <th class="text-start text-white" scope="col">Contacts</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="container">
-                    <div class="domain-container">
-                        <td>{{ getUserEmail }}</td>
-                    </div>
-                    <div class="contacts-container">
-                        <td v-for="i in userContactsNames" :key="userContactsNames[i]">
-                            <li>{{ i }}</li>
-                        </td>
-                    </div>
+                <tr>
+                    <td class="text-start text-white">{{ getUserEmail }}</td>
+                    <td class="text-start text-white">
+                        <ul class="contacts-list">
+                            <li v-for="i in userContactsNames" :key="userContactsNames[i]" class="contact">
+                                {{ i }}
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
             </tbody>
-        </v-table>
-    </v-container>
-  </v-responsive>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -46,7 +40,7 @@
             async getUserContacts() {
                 const apiKey = import.meta.env.VITE_APP_API_KEY;
                 try {
-                    const response = await fetch(`https://people.googleapis.com/v1/people/me/connections?key=${apiKey}&personFields=names`, {
+                    const response = await fetch(`https://people.googleapis.com/v1/people/me/connections?key=${apiKey}&personFields=names,emailAddresses`, {
                         method: 'GET',
                         headers: {
                             "authorization": `Bearer ${this.oauthAcessToken}`
@@ -94,29 +88,19 @@
 </script>
 
 <style scoped>
-    .container {
-        display: flex;
-        justify-content: space-between;
-    }
-    .contacts-table {
-        margin: 0 auto;
-        width: 600px;
+    .table-container {
+        background-color: #3c3c3c;
+        width: 500px;
+        margin-top: 15px;
     }
 
-    .contacts-container {
-        width: 300px;
+    .contacts-list {
+        list-style: none;
     }
 
-    .domain-container {
-        border-right: 1px solid #3c3c3c;
-        padding: 10px;
+    .contact {
+        border-bottom: 1px solid #4c4c4c;
+        margin-bottom: 6px;
     }
-
-    .contacts-container > td {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        padding: 12px;
-    }
-
+   
 </style>
