@@ -38,13 +38,6 @@
         components: {
             Navbar
         },
-
-        data() {
-            return {
-                formUser: {}
-            }
-        },
-
         methods: { 
             handleGoogleAuthentication() {
                 const provider = new GoogleAuthProvider();
@@ -54,16 +47,14 @@
                 auth.languageCode = 'pt';
                 
                 signInWithPopup(auth, provider)
-                .then(result => {
+                .then((result) => {
                     const userOauthAcesstoken = result._tokenResponse.oauthAccessToken;
                     const { user } = result;
-                    const { email } = user;
-                    const { displayName } = user;
+                    const { displayName, email } = user;
                     sessionStorage.setItem('userName', displayName);
                     sessionStorage.setItem('userEmail', email);
 
                     this.$store.commit('auth/setOauthAcessToken', userOauthAcesstoken);
-                    this.$store.commit('auth/setIsAuthenticated', true);
                     this.$store.commit('auth/setUsers', user);
                     
                     this.$toast.info(`Welcome, ${user.displayName}`, {
@@ -72,8 +63,7 @@
                     this.$router.push('/contacts');
                 })
                 .catch((error) => {
-                    const { code } = error;
-                    const { message } = error;
+                    const { message, code } = error;
                     const credential = GoogleAuthProvider.credentialFromError(error);
                     this.$toast.error("failed to perform login!", {
                         position: "top"
@@ -85,7 +75,6 @@
         computed: {
             ...mapState({
                 users: state => state.auth.users,
-                isAuthenticated: state => state.auth.isAuthenticated,
                 formUsers: state => state.auth.formUsers
             })
         }

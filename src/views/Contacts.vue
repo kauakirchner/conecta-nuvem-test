@@ -28,6 +28,7 @@
 <script>
     import Navbar from '../components/shared/Navbar.vue';
     import { mapState } from "vuex";
+    import { getAcessToken, getAuthenticatedHeadersConfig } from '../helpers'
 
     export default {
         components: { Navbar },
@@ -39,12 +40,12 @@
         methods: { 
             async getUserContacts() {
                 const apiKey = import.meta.env.VITE_APP_API_KEY;
-                const acessToken = sessionStorage.getItem('acessToken')
+                const acessToken = getAcessToken();
                 try {
                     const response = await fetch(`https://people.googleapis.com/v1/people/me/connections?key=${apiKey}&personFields=names,emailAddresses`, {
                         method: 'GET',
                         headers: {
-                            "authorization": `Bearer ${acessToken}`
+                            ...getAuthenticatedHeadersConfig()
                         },
                     })
                     if (response.status === 200) {
@@ -59,6 +60,7 @@
                     this.$toast.error("Error loading contacts", {
                         position: "top"
                     });
+
                 }
             },
         },
@@ -66,9 +68,7 @@
         computed: {
             ...mapState({
                 users: state => state.auth.users,
-                isAuthenticated: state => state.auth.isAuthenticated,
                 formUsers: state => state.auth.formUsers,
-                oauthAcessToken: state => state.auth.oauthAcessToken,
             }),
 
             getUserName() {

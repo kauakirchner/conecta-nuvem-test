@@ -16,7 +16,6 @@
         computed: {
             ...mapState({
                 users: state => state.auth.users,
-                isAuthenticated: state => state.auth.isAuthenticated,
                 formUsers: state => state.auth.formUsers
             }),
 
