@@ -93,10 +93,12 @@
                 .then(result => {
                     const { user } = result;
                     const userOauthAcesstoken = result._tokenResponse.oauthAccessToken;
+                    const { email } = user
+                    sessionStorage.setItem('userEmail', email)
                     this.$store.commit('auth/setOauthAcessToken', userOauthAcesstoken);
                     this.$store.commit('auth/setIsAuthenticated', true);
                     this.$store.commit('auth/setUsers', user);
-                    this.$toast.success(`Welcome, ${user.displayName}`, {
+                    this.$toast.info(`Welcome, ${user.displayName}`, {
                         position: "top"
                     });
                     this.$router.push('/contacts')

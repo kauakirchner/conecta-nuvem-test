@@ -18,6 +18,7 @@ export default {
 
         setOauthAcessToken(state, value) {
             state.oauthAcessToken = value;
+            sessionStorage.setItem('acessToken', state.oauthAcessToken);
         }
     }
 }

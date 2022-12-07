@@ -39,11 +39,12 @@
         methods: { 
             async getUserContacts() {
                 const apiKey = import.meta.env.VITE_APP_API_KEY;
+                const acessToken = sessionStorage.getItem('acessToken')
                 try {
                     const response = await fetch(`https://people.googleapis.com/v1/people/me/connections?key=${apiKey}&personFields=names,emailAddresses`, {
                         method: 'GET',
                         headers: {
-                            "authorization": `Bearer ${this.oauthAcessToken}`
+                            "authorization": `Bearer ${acessToken}`
                         },
                     })
                     if (response.status === 200) {
@@ -76,8 +77,8 @@
             },
 
             getUserEmail() {
-                const email = this.users.map(user => user.email);
-                return email.join();
+                const email = sessionStorage.getItem('userEmail')
+                return email
             },
         },
 
