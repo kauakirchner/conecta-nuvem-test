@@ -1,28 +1,30 @@
 <template>
     <router-view></router-view>
-    <Navbar :pageName="'Contacts'" />
-    <div class="container-fluid p-4 table-container">
-        <table class="table aling-middle">
-            <thead>
-                <tr>
-                    <th class="text-start text-white" scope="col">Domain</th>
-                    <th class="text-start text-white" scope="col">Contacts</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-start text-white">{{ getUserEmail }}</td>
-                    <td class="text-start text-white">
-                        <ul class="contacts-list">
-                            <li v-for="i in userContactsNames" :key="userContactsNames[i]" class="contact">
-                                {{ i }}
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <v-responsive>
+        <Navbar :pageName="'Contacts'" />
+        <div class="container-fluid p-4 table-container">
+            <table class="table aling-middle">
+                <thead>
+                    <tr>
+                        <th class="text-start text-white" scope="col">Domain</th>
+                        <th class="text-start text-white" scope="col">Contacts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-start text-white">{{ getUserEmail }}</td>
+                        <td class="text-start text-white">
+                            <ul class="contacts-list">
+                                <li v-for="i in userContactsNames" :key="userContactsNames[i]" class="contact">
+                                    {{ i }}
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </v-responsive>
 </template>
 
 <script>
@@ -102,6 +104,12 @@
     .contact {
         border-bottom: 1px solid #4c4c4c;
         margin-bottom: 6px;
+    }
+
+    @media (max-width: 530px) {
+        .table-container {
+            width: 400px;
+        }
     }
    
 </style>
