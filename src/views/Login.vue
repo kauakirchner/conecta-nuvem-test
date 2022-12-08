@@ -44,6 +44,7 @@
                 const auth = getAuth();
                 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
                 provider.addScope('https://www.googleapis.com/auth/contacts');
+                provider.addScope('https://www.googleapis.com/auth/contacts.other.readonly')
                 auth.languageCode = 'pt';
                 
                 signInWithPopup(auth, provider)

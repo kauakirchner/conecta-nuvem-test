@@ -42,9 +42,8 @@
         methods: { 
             async getUserContacts() {
                 const apiKey = import.meta.env.VITE_APP_API_KEY;
-                const acessToken = getAcessToken();
                 try {
-                    const response = await fetch(`https://people.googleapis.com/v1/people/me/connections?key=${apiKey}&personFields=names,emailAddresses`, {
+                    const response = await fetch(`https://people.googleapis.com/v1/otherContacts?key=${apiKey}&readMask=emailAddresses`, {
                         method: 'GET',
                         headers: {
                             ...getAuthenticatedHeadersConfig()
@@ -52,10 +51,10 @@
                     })
                     if (response.status === 200) {
                         const data = await response.json();
-                        const { connections } = data
-                        const getNames = connections.map(user => user.names.map(user => user.displayName))
-                        const names = getNames.reduce((list, sub) => list.concat(sub), [])
-                        this.userContactsNames = names;
+                        const { otherContacts } = data
+                        const getEmails = otherContacts.map(user => user.emailAddresses.map(user => user.value))
+                        const emails = getEmails.reduce((list, sub) => list.concat(sub), [])
+                        this.userContactsNames = emails;
                     }
 
                 } catch {
@@ -93,7 +92,7 @@
 <style scoped>
     .table-container {
         background-color: #3c3c3c;
-        width: 500px;
+        width: 600px;
         margin-top: 15px;
     }
 
@@ -102,13 +101,12 @@
     }
 
     .contact {
-        border-bottom: 1px solid #4c4c4c;
         margin-bottom: 6px;
     }
 
     @media (max-width: 530px) {
         .table-container {
-            width: 400px;
+            width: 100%;
         }
     }
    
