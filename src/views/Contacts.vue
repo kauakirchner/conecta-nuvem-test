@@ -30,7 +30,7 @@
 <script>
     import Navbar from '../components/shared/Navbar.vue';
     import { mapState } from "vuex";
-    import { getAcessToken, getAuthenticatedHeadersConfig } from '../helpers'
+    import { getAuthenticatedHeadersConfig } from '../helpers'
 
     export default {
         components: { Navbar },
@@ -61,7 +61,6 @@
                     this.$toast.error("Error loading contacts", {
                         position: "top"
                     });
-
                 }
             },
         },
@@ -69,7 +68,6 @@
         computed: {
             ...mapState({
                 users: state => state.auth.users,
-                formUsers: state => state.auth.formUsers,
             }),
 
             getUserName() {
