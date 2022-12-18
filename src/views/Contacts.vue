@@ -51,9 +51,9 @@
                     })
                     if (response.status === 200) {
                         const data = await response.json();
-                        const { otherContacts } = data
-                        const getEmails = otherContacts.map(user => user.emailAddresses.map(user => user.value))
-                        const emails = getEmails.reduce((list, sub) => list.concat(sub), [])
+                        const { otherContacts } = data;
+                        const getEmails = otherContacts.map(user => user.emailAddresses.map(user => user.value));
+                        const emails = getEmails.reduce((list, sub) => list.concat(sub), []);
                         this.userContactsNames = emails;
                     }
 
@@ -76,8 +76,8 @@
             },
 
             getUserEmail() {
-                const email = sessionStorage.getItem('userEmail')
-                return email
+                const email = sessionStorage.getItem('userEmail');
+                return email;
             },
         },
 
