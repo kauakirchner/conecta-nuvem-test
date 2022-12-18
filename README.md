@@ -3,7 +3,9 @@
     <br>
     <span>Teste realizado como parte do processo seletivo para a empresa.</span>
     <br>
-    <span>O teste consiste em realizar uma autenticação via google para entrar na aplicação, e listar os contatos do Gmail do usuário.</span>
+    <span>
+        O teste consiste em realizar uma autenticação via google para entrar na aplicação, e listar os contatos do Gmail do usuário utilizando a google people api
+    </span>
     <br>
     <strong>Tecnologias utilizadas:</strong>
     <br>
